@@ -17,44 +17,80 @@ STEP-5: Display the cipher text obtained above.
 
 ## PROGRAM:
 ```
-#include <stdio.h> 
-#include <string.h> 
-#include <ctype.h> 
-void main() 
-{ 
-    char plain[10],cipher[10]; 
-    int key,i,length; 
-    int result; 
-    printf("\n Enter the plain text:"); 
-    scanf("%s", plain); 
-    printf("\n Enter the key value:"); 
-    scanf("%d", &key); 
-    printf("\n \n \t PLAIN TEXt: %s", plain); 
-    printf("\n \n \t ENCRYPTED TEXT:"); 
-    for(i=0, length = strlen(plain); i<length; i++) 
-    { 
-        cipher[i]=plain[i] + key; 
-        if (isupper(plain[i]) && (cipher[i] > 'Z')) 
-        cipher[i] = cipher[i] - 26; 
-        if (islower(plain[i]) && (cipher[i] > 'z')) 
-        cipher[i] = cipher[i] - 26; 
-        printf("%c", cipher[i]); 
-    } 
-    printf("\n \n \t AFTER DECRYPTION : "); 
-    for(i=0;i<length;i++) 
-    { 
-        plain[i]=cipher[i]-key; 
-        if(isupper(cipher[i])&&(plain[i]<'A')) 
-        plain[i]=plain[i]+26; 
-        if(islower(cipher[i])&&(plain[i]<'a')) 
-        plain[i]=plain[i]+26; 
-        printf("%c",plain[i]); 
-    } 
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    char plain[1000], cipher[1000];
+    int key, i, length;
+
+    printf("\nEnter the plain text: ");
+    fgets(plain, sizeof(plain), stdin);
+
+    // Remove newline character
+    plain[strcspn(plain, "\n")] = '\0';
+
+    printf("\nEnter the key value: ");
+    scanf("%d", &key);
+
+    // Convert key into range 0-25
+    key = key % 26;
+
+    length = strlen(plain);
+
+    printf("\nPLAIN TEXT: %s", plain);
+
+    printf("\n\nENCRYPTED TEXT: ");
+
+    for (i = 0; i < length; i++)
+    {
+        cipher[i] = plain[i];
+
+        if (isupper(plain[i]))
+        {
+            cipher[i] = (plain[i] - 'A' + key) % 26 + 'A';
+        }
+        else if (islower(plain[i]))
+        {
+            cipher[i] = (plain[i] - 'a' + key) % 26 + 'a';
+        }
+
+        printf("%c", cipher[i]);
+    }
+
+    cipher[length] = '\0';
+
+    printf("\n\nAFTER DECRYPTION: ");
+
+    for (i = 0; i < length; i++)
+    {
+        plain[i] = cipher[i];
+
+        if (isupper(cipher[i]))
+        {
+            plain[i] = (cipher[i] - 'A' - key + 26) % 26 + 'A';
+        }
+        else if (islower(cipher[i]))
+        {
+            plain[i] = (cipher[i] - 'a' - key + 26) % 26 + 'a';
+        }
+
+        printf("%c", plain[i]);
+    }
+
+    plain[length] = '\0';
+
+    return 0;
 }
+
 ```
 
 ## OUTPUT:
-<img width="965" height="368" alt="image" src="https://github.com/user-attachments/assets/d0823b3d-8b7e-4a7e-b493-7d83e0bcf718" />
+<img width="935" height="276" alt="image" src="https://github.com/user-attachments/assets/de57d7de-4b87-4dcd-b2a2-f0ff775f7172" />
+
 
 
 ## RESULT :
